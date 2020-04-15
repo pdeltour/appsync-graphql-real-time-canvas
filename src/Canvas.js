@@ -52,7 +52,10 @@ class Demo extends Component {
           this.canvas.loadSaveData(d)
         }
       })
-    window.addEventListener('touchend', (e) => {
+
+
+
+    const onDrawEnd = (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
       this.setState({
@@ -74,7 +77,14 @@ class Demo extends Component {
           console.log('canvas updated!')
         })
         .catch(err => console.log('error creating: ', err))
-    })
+    };
+
+
+    window.addEventListener('touchend', onDrawEnd);
+    window.addEventListener('mouseup', onDrawEnd);
+
+
+
     API.graphql(graphqlOperation(onUpdateCanvas))
       .subscribe({
         next: (d) => {
