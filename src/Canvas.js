@@ -54,7 +54,7 @@ class Demo extends Component {
       })
     window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
-      if (e.target.name === 'clearbutton') return 
+      if (e.target.name === 'clearbutton') return
       this.setState({
         brushColor: rand()
       })
@@ -78,8 +78,10 @@ class Demo extends Component {
     API.graphql(graphqlOperation(onUpdateCanvas))
       .subscribe({
         next: (d) => {
+          console.log('canvas update notification received');
           const data = JSON.parse(d.value.data.onUpdateCanvas.data)
           const length = data.lines.length
+
           if (length === 0) {
             // If there is no canvas data, clear the canvas
             const data = this.canvas.getSaveData()
@@ -92,9 +94,17 @@ class Demo extends Component {
             this.canvas.loadSaveData(newCanvas)
             return
           }
-          if (this.lineLength === length || length === Number(0)) return
+
+          console.log(`received buffer length ${length}`);
+          console.log(`current buffer length ${this.lineLength}`);
+
+          if (this.lineLength === length || length === Number(0)) {
+            console.log("no need to redraw")
+            return
+          }
           // Draw new lines to canvas
-          const last = data.lines[length -1]
+          console.log("redrawing canvas")
+          const last = data.lines[length - 1]
           this.canvas.simulateDrawingLines({ lines: [last] })
         }
       })
@@ -114,10 +124,10 @@ class Demo extends Component {
       data: newCanvas
     }
     API.graphql(graphqlOperation(updateCanvas, { input: canvas }))
-        .then(c => {
-          console.log('canvas cleared!')
-        })
-        .catch(err => console.log('error creating: ', err))
+      .then(c => {
+        console.log('canvas cleared!')
+      })
+      .catch(err => console.log('error creating: ', err))
   }
   render() {
     return (
