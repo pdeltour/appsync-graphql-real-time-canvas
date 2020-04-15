@@ -100,8 +100,9 @@ class Demo extends Component {
               ...parsedData,
               lines: []
             }
-            const newCanvas = JSON.stringify(newData)
-            this.canvas.loadSaveData(newCanvas)
+            const newCanvas = JSON.stringify(newData);
+            this.canvas.loadSaveData(newCanvas);
+            this.lineLength = 0;
             return
           }
 
