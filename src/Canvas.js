@@ -52,7 +52,7 @@ class Demo extends Component {
           this.canvas.loadSaveData(d)
         }
       })
-    window.addEventListener('mouseup', (e) => {
+    window.addEventListener('touchend', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
       this.setState({
@@ -92,7 +92,6 @@ class Demo extends Component {
             }
             const newCanvas = JSON.stringify(newData)
             this.canvas.loadSaveData(newCanvas)
-            this.lineLength = 0;
             return
           }
 
